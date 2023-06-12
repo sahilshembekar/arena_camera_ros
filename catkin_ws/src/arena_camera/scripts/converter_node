@@ -1,0 +1,8 @@
+import rospy
+from arena_camera.converter_node import ConverterNode
+
+try:
+    converter_node_exec = ConverterNode()
+    rospy.spin()
+except rospy.ROSInterruptException:
+    rospy.loginfo("{} node terminated successfully".format(rospy.get_name()))

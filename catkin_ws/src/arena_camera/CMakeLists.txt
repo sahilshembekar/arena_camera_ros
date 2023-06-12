@@ -162,6 +162,7 @@ add_executable(
         src/arena_camera.cpp
         src/encoding_conversions.cpp
         src/main.cpp
+        # src/converter_test.cpp
 )
 
 # needed ".h"s
@@ -182,7 +183,8 @@ target_link_libraries(
 add_dependencies(
     ${arena_camera_node_name}
         # because this uses one of the catkin componenets which is camera_control_msg
-        ${catkin_EXPORTED_TARGETS} 
+        ${catkin_EXPORTED_TARGETS}
+        # converter_test_cpp 
 )
 
 # target_link_directories NOT NEEDED as arena_sdk_LIBRARIES is 
@@ -258,6 +260,7 @@ install(
         scripts/sequence_to_file.py
         scripts/toggle_camera
         scripts/triggered_image_topic.py
+        scripts/converter_node
     DESTINATION
      ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
@@ -298,3 +301,7 @@ foreach(child ${children})
   endif()
 endforeach()
 #add_custom_target(dummy_${PROJECT_NAME} SOURCES ${${PROJECT_NAME}_extra_files})
+
+# catkin_install_python(
+#   PROGRAMS scripts/converter_node
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
