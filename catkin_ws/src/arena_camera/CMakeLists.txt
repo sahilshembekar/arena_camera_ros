@@ -35,6 +35,7 @@ project(arena_camera)
 # - ${arena_sdk_FOUND}
 
 find_package(arena_sdk QUIET)
+find_package(PCL REQUIRED)
 if (NOT ${arena_sdk_FOUND})
     include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Findarena_sdk.cmake")
 endif()
@@ -44,6 +45,7 @@ endif()
 #
 
 set(CATKIN_COMPONENTS
+     pcl_ros
      actionlib
      camera_control_msgs # arena_camera depends on this upper custom msg package 
      camera_info_manager
@@ -162,12 +164,12 @@ add_executable(
         src/arena_camera.cpp
         src/encoding_conversions.cpp
         src/main.cpp
-        # src/converter_test.cpp
 )
 
 # needed ".h"s
 target_include_directories(
     ${arena_camera_node_name}
+        PRIVATE ${PCL_INCLUDE_DIRS}
         PRIVATE ${catkin_INCLUDE_DIRS} 
         PRIVATE ${arena_sdk_INCLUDE_DIRS}
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -260,7 +262,7 @@ install(
         scripts/sequence_to_file.py
         scripts/toggle_camera
         scripts/triggered_image_topic.py
-        scripts/converter_node
+        scripts/depth_to_point_cloud.py
     DESTINATION
      ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
